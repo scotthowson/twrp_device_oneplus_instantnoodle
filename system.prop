@@ -1,0 +1,8 @@
+# Basic system properties
+ro.display.series=OnePlus 8/8 Pro
+ro.product.board=kona
+ro.board.platform=kona
+vendor.gatekeeper.disable_spu=true
+ro.adb.secure=0
+fbe.metadata.wrappedkey=true
+ro.crypto.volume.filenames_mode=aes-256-cts
