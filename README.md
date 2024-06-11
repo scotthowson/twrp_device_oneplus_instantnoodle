@@ -1,63 +1,32 @@
-# Device Tree for 8/Pro (instantnoodle) for TWRP
-## Disclaimer - Unofficial TWRP!
-These are personal test builds of mine. In no way do I hold responsibility if it/you messes up your device.
-Proceed at your own risk.
+# Android device tree for OnePlus IN2013 (instantnoodle)
 
-## Setup repo tool
-Setup repo tool from here https://source.android.com/setup/develop#installing-repo
 
-## Compile
 
-Sync aosp_r29 manifest:
+## Getting Started ##
+---------------
 
-```
-repo init -u https://android.googlesource.com/platform/manifest -b android-11.0.0_r29
-```
+To get started with AOSP sources to build TWRP, you'll need to get familiar
+with [Git and Repo](https://source.android.com/source/using-repo.html).
 
-Make a directory named local_manifest under .repo, and create a new manifest file, for example instantnoodle.xml
-and then paste the following
+To initialize your local repository using the AOSP trees to build TWRP, use a command like this:
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<manifest>
-<remote name="github"
-	fetch="https://github.com/" />
+    repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
 
-<project path="device/oneplus/instantnoodle"
-	name="systemad/android_device_oneplus_instantnoodle"
-	remote="github"
-	revision="android-11" />
-</manifest>
-```
-Use https://del.dog/a11-twrp-extras.txt is same directory as well. You might need to pick few patches from gerrit.twrp.me to get some stuff working.
+To initialize a shallow clone, which will save even more space, use a command like this:
 
-Sync the sources with
+    repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
 
-```
-repo sync
-```
+Then to sync up:
 
-To build, execute these commands in order
+    repo sync
 
-```
-. build/envsetup.sh
-export ALLOW_MISSING_DEPENDENCIES=true
-export LC_ALL=C
-lunch twrp_instantnoodle-eng
-make -j16 adbd recoveryimage
-```
+NOTE: Device makefile in the device tree and dependencies file should use the "twrp" prefix.
 
-To test it:
+Then to build for a device with recovery partition:
 
-```
-# To temporarily boot it
-fastboot boot out/target/product/instantnoodle/recovery.img 
+     cd <source-dir>; export ALLOW_MISSING_DEPENDENCIES=true; . build/envsetup.sh; lunch twrp_<device>-eng; mka recoveryimage
 
-# Since 8 / Pro has a seperate recovery partition, you can flash the recovery with
-fastboot flash recovery recovery.img
-```
+Then to build for a device without recovery partition:
 
-##### Credits
-- CaptainThrowback for original tree
-- mauronofrio for original tree
-- TWRP team
+     cd <source-dir>; export ALLOW_MISSING_DEPENDENCIES=true; . build/envsetup.sh; lunch twrp_<device>-eng; mka bootimage
+

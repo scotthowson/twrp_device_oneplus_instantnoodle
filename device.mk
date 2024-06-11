@@ -1,3 +1,10 @@
+#
+# Copyright (C) 2024 The Android Open Source Project
+# Copyright (C) 2024 SebaUbuntu's TWRP device tree generator
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
 # Inherit from common AOSP config
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
 
@@ -47,6 +54,9 @@ PRODUCT_PACKAGES += \
 	android.hardware.boot@1.0-impl.recovery \
 	bootctrl.$(PRODUCT_PLATFORM) \
 	bootctrl.$(PRODUCT_PLATFORM).recovery
+
+# TWRP Name​
+TW_DEVICE_VERSION := howson-dev
 
 TW_LOAD_VENDOR_MODULES := "touchscreen.ko aw8697.ko adsp_loader_dlkm.ko oplus_chg.ko"
 
