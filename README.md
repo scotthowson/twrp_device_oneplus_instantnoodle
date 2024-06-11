@@ -1,32 +1,99 @@
-# Android device tree for OnePlus IN2013 (instantnoodle)
 
+# Android Device Tree for OnePlus IN2013 (instantnoodle)
 
+This repository contains the Android device tree for the OnePlus IN2013 (instantnoodle) for building TWRP.
 
-## Getting Started ##
----------------
+## Getting Started
 
-To get started with AOSP sources to build TWRP, you'll need to get familiar
-with [Git and Repo](https://source.android.com/source/using-repo.html).
+To get started with building TWRP using AOSP sources, you'll need to be familiar with [Git and Repo](https://source.android.com/source/using-repo.html).
 
-To initialize your local repository using the AOSP trees to build TWRP, use a command like this:
+### Initializing the Repository
 
+1. **Initialize your local repository using the AOSP trees to build TWRP**:
+
+    ```sh
     repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
+    ```
 
-To initialize a shallow clone, which will save even more space, use a command like this:
+2. **Initialize a shallow clone to save space**:
 
+    ```sh
     repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
+    ```
 
-Then to sync up:
+### Creating Local Manifests
 
-    repo sync
+1. **Create a directory for local manifests**:
 
-NOTE: Device makefile in the device tree and dependencies file should use the "twrp" prefix.
+    ```sh
+    mkdir -p .repo/localmanifests
+    ```
 
-Then to build for a device with recovery partition:
+2. **Create and edit the manifest file**:
 
-     cd <source-dir>; export ALLOW_MISSING_DEPENDENCIES=true; . build/envsetup.sh; lunch twrp_<device>-eng; mka recoveryimage
+    ```sh
+    cat > .repo/localmanifests/instantnoodle.xml << 'EOF'
+    <?xml version="1.0" encoding="UTF-8"?>
+    <manifest>
+        <project path="device/oneplus/instantnoodle"
+            name="scotthowson/twrp_device_oneplus_instantnoodle"
+            remote="github"
+            revision="android-10" />
+    </manifest>
+    EOF
+    ```
 
-Then to build for a device without recovery partition:
+### Syncing the Repository
 
-     cd <source-dir>; export ALLOW_MISSING_DEPENDENCIES=true; . build/envsetup.sh; lunch twrp_<device>-eng; mka bootimage
+To sync the repository, run:
 
+```sh
+repo sync
+```
+
+**Note**: The device makefile in the device tree and dependencies file should use the "twrp" prefix.
+
+### Building TWRP
+
+Execute the following commands in order to build TWRP:
+
+1. **Set up the build environment**:
+
+    ```sh
+    . build/envsetup.sh
+    ```
+
+2. **Allow missing dependencies and set locale**:
+
+    ```sh
+    export ALLOW_MISSING_DEPENDENCIES=true
+    export LC_ALL=C
+    ```
+
+3. **Choose the device configuration**:
+
+    ```sh
+    lunch twrp_instantnoodle-eng
+    ```
+
+4. **Build the recovery image**:
+
+    ```sh
+    make -j16 adbd recoveryimage
+    ```
+
+### Testing the Build
+
+To test the built recovery image:
+
+1. **Temporarily boot the recovery image**:
+
+    ```sh
+    fastboot boot out/target/product/instantnoodle/recovery.img
+    ```
+
+2. **Flash the recovery image**:
+
+    ```sh
+    fastboot flash recovery recovery.img
+    ```
