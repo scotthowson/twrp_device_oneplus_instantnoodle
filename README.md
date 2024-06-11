@@ -95,5 +95,5 @@ To test the built recovery image:
 2. **Flash the recovery image**:
 
     ```sh
-    fastboot flash recovery recovery.img
+    fastboot flash recovery out/target/product/instantnoodle/recovery.img
     ```
