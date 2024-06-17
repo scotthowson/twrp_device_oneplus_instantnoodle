@@ -38,7 +38,7 @@ To get started with building TWRP using AOSP sources, you'll need to be familiar
         <project path="device/oneplus/instantnoodle"
             name="scotthowson/twrp_device_oneplus_instantnoodle"
             remote="github"
-            revision="android-10" />
+            revision="android-11" />
     </manifest>
     EOF
     ```
